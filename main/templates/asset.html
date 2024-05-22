@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="main-content">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <span>Inventory</span>
+            <h2>Dashboard</h2>
+        </div>
+        <div class="user-info">
+            <div class="search-box">
+                <i class="bx bx-search"></i>
+                <input type="search" placeholder="Search...">
+            </div>
+            <div class="asset-box">
+                <img src="{% static 'images/user.png' %}" alt="logo">
+            </div>
+        </div>
+    </div>
+    <div class="card-container">
+        <h3 class="main-title">Asset Details</h3>
+        <div class="asset-info">
+            <h4>Brand: {{ asset.brand }}</h4>
+            <p>Model: {{ asset.model }}</p>
+            <p>Serial Number: {{ asset.serial_number }}</p>
+            <p>Hostname: {{ asset.asset_id }}</p>
+            <p>Location: {{ asset.location }}</p>
+            <p>State: {{ asset.state }}</p>
+            <p>Assigned to: {{ asset.assigned_to }}</p><br><br>
+            <a href="{% url 'home' %}">Back to previous</a> 
+        </div> 
+        <!-- <img src="{{ asset.image.url }}" class="{img-fluid rounded-start}" alt="..."> -->
+    </div>
+
+{% endblock %}

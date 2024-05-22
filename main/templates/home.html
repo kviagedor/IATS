@@ -1,0 +1,184 @@
+{% extends 'base.html' %}  
+{% load static %}  
+    
+{% block content %}
+
+    <div class="card-container">
+        <h3 class="main-title">Employee Update</h3>
+        <hr>
+        <div class="employee-card-wrapper">
+            <div class="employee-card light-red">
+                <div class="card-header">
+                    <div class="amount">
+                        <h4> NEWLY HIRED </h4>
+                        {% if newly_hired_employees %}
+                        <ul>
+                            {% for employee in newly_hired_employees %}
+                                <li>{{ employee.name }}</li>
+                            {% endfor %}
+                        </ul>
+                            {% else %}
+                        <li> No newly hired employees. </li>
+                        {% endif %}
+                    </div>
+                </div>
+            </div> 
+            <div class="employee-card light-purple">
+                <div class="card-header">
+                    <div class="amount">
+                        <h4> TODAY'S BIRTHDAY </h4>
+                        {% if employees_with_birthday %}
+                        <ul>
+                            {% for employee in employees_with_birthday %}
+                                <li>{{ employee.name }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <li> No upcoming birthday. </li>
+                        {% endif %}
+                    </div>
+                </div>
+            </div> 
+            <div class="employee-card light-green">
+                <div class="card-header">
+                    <div class="amount">
+                        <h4> ANNIVERSARY </h4>
+                        {% if five_year_anniversary_employees %}
+                        <ul>
+                            {% for employee in five_year_anniversary_employees %}
+                                <li>{{ employee.name }} - {{ employee.hire_date|date }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <li> No upcoming anniversary. </li>
+                        {% endif %}
+                    </div>
+                </div>
+            </div> 
+            <div class="employee-card light-blue">
+                <div class="card-header">
+                    <div class="amount">
+                        <h4> TOTAL EMPLOYEES </h4>
+                        <ul>
+                        {% for employee in employee_count %}
+                            <li>{{ employee.status }}: {{ employee.employee_count }}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    <span class='icon dark-blue' >{{ employees|length }}</span>
+                </div>
+            </div> 
+        </div>
+    </div>
+    <br>
+    <div class="card-container">
+        <h3 class="main-title">IT Asset Update</h3>
+        <hr>
+        <div class="asset-card-wrapper">
+            <div class="card light-red">
+                <div class="card-header">
+                    <div class="amount">
+                        <h4> RECENT DEPLOYED </h4>
+                        <ul>
+                            {% for asset in deployed_asset %}
+                            <li>{{ asset.type }} has been assigned to {{ asset.assigned_to }} on {{ asset.deployed_date }}</li>
+                            {% empty %}
+                            <li>No assets deployed this month.</li>
+                            {% endfor %}
+                        </ul>
+                        <!-- <span> Total IT Asset: {{ assets|length }} </span> -->
+                    </div>
+                </div>
+            </div> 
+            <div class="card light-purple">
+                <div class="card-header">
+                    <div class="amount">
+                        <h4> TOTAL DEPLOYED </h4>
+                        <ul>
+                            {% for asset_type_count in asset_type_counts_deployed %}
+                            <li>{{ asset_type_count.type }}: {{ asset_type_count.count }}</li>
+                            {% endfor %}
+                        </ul>
+                        <!-- <span> Total IT Asset: {{ assets|length }} </span> -->
+                    </div>
+                </div>
+            </div> 
+            <div class="card light-green">
+                <div class="card-header">
+                    <div class="amount">
+                        <h4> ON STOCK </h4>
+                        <ul>
+                            {% for asset_type_count in asset_type_counts_in_stock %}
+                            <li>{{ asset_type_count.type }}: {{ asset_type_count.count }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div> 
+            <div class="card light-blue">
+                <div class="card-header">
+                    <div class="amount">
+                        <H4>TOTAL ASSET</H4>
+                        <ul>
+                        {% for asset in asset_count %}
+                            <li>{{ asset.type }}: {{ asset.asset_count }}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    <span class='icon dark-blue' >{{ assets|length }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="chart-wrapper">
+            <canvas id="typePieChart" width="400" height="400"></canvas>
+        </div>
+    </div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var ctx = document.getElementById('typePieChart').getContext('2d');
+        var typeCounts = JSON.parse('{{ type_counts_json|escapejs }}');
+
+        var pieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(typeCounts),
+                datasets: [{
+                    data: Object.values(typeCounts),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                        'rgba(255, 159, 64, 0.7)',
+                        'rgba(255, 0, 255, 0.7)',  
+                        'rgba(0, 255, 255, 0.7)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 0, 255, 1)',  
+                        'rgba(0, 255, 255, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    position: 'left'
+                }
+            }
+        });
+    });
+</script>
+
+
+{% endblock %}

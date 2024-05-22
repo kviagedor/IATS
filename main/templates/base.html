@@ -1,0 +1,91 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style_v2.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>IT Asset Tracking</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+</head>
+<body>
+    <div class="sidebar">
+        <div class="header-logo">
+            <div class="logo">
+                <img src="{% static 'images/logo2.png' %}" alt="logo">
+            </div>
+
+            <div class="header-text">
+                <span> Animal Nutrition</span>
+            </div>
+        </div>
+        
+        <ul class="menu">
+            <li>
+                <a href="{% url 'home' %}">
+                    <i class='bx bxs-dashboard' ></i>
+                    <span class="text nav-text">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'employees' %}">
+                    <i class='bx bx-user'></i>
+                    <span class="text nav-text">Employee</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-network-chart'></i>
+                    <span class="text nav-text">Department</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'itassets' %}">
+                    <i class='bx bx-laptop'></i>
+                    <span class="text nav-text">IT Asset</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-devices' ></i>
+                    <span class="text nav-text">Accessories</span>
+                </a>
+            </li>
+            <li class="logout">
+                <a href="#">
+                    <i class="bx bx-log-out"></i>
+                    <span class="text nav-text">Logout</span>
+                </a>
+            </li>
+        </ul>
+   </div> 
+
+   <div class="header-content">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <span>IT Asset Inventory</span>
+            <h2>Dashboard</h2>
+        </div>
+        <div class="user-info">
+            <div class="search-box">
+                <i class="bx bx-search"></i>
+                <input type="search" placeholder="Search...">
+            </div>
+            <img src="{% static 'images/user.png' %}" alt="logo">
+        </div>
+    </div>
+    </div>
+    
+    <div class="main-content">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
+
+</body>
+</html>
